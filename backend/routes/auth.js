@@ -2,6 +2,9 @@ import { Router } from "express";
 import validate from "../middlewares/validate.js";
 import Joi from "joi";
 import { genders } from "../helpers/constants.js"
+import { insertUser } from "../services/db/user.js"
+import moment from "moment";
+
 
 const authRouter = Router();
 
@@ -14,13 +17,17 @@ authRouter.post("/register", validate({
         dob: Joi.date().required(),
         gender: Joi.string().valid(...genders).required(),
         address: Joi.string().required(),
-        password: Joi.string().required(),
+        password: Joi.string().min(8).required(),
     }),
-    query: Joi.object().keys({
-        new: Joi.boolean()
-    })
-}), function (req, res) {
-    return res.send(req.body)
+}), async function (req, res) {
+    try {
+        let rawUser = req.body;
+        rawUser['dob'] = moment(rawUser['dob']).toDate()
+        const user = await insertUser(rawUser);
+        return res.status(201).send(user)
+    } catch (e) {
+        return res.status(500).send({ error: e })
+    }
 })
 
 export default authRouter

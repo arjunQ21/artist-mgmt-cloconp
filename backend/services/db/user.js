@@ -3,7 +3,7 @@ import connection from "./connection.js";
 async function getUser (id) {
     try {
         const [userData] = await connection.query("SELECT * from user WHERE id = ?", [id])
-        return userData;
+        return userData[0];
     } catch (err) {
         console.log("Error getting user: ", err);
         throw err;

@@ -25,7 +25,7 @@ create table artist(
     first_release_year year not null,
     no_of_albums_released int DEFAULT 0,
     created_at datetime DEFAULT CURRENT_TIMESTAMP,
-    update_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ;
 
 create table music(
@@ -34,7 +34,7 @@ create table music(
     album_name varchar(255) not null,
     genre enum('rnb', 'country', 'classic', 'rock', 'jazz') not null,
     created_at datetime DEFAULT CURRENT_TIMESTAMP,
-    update_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     foreign key (artist_id) references artist(id)
 );
 

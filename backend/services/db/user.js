@@ -64,7 +64,7 @@ async function updateUser (id, updatedFields) {
     const setThis = keys.map(key => `${key} = ?`).join(', ');
 
     try {
-        const [result] = await connection.query(
+        await connection.query(
             `UPDATE user SET ${setThis} WHERE id = ?`,
             [...values, id]
         );

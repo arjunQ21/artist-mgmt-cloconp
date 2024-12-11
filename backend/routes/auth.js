@@ -44,7 +44,7 @@ authRouter.post("/login", validate({
             const loggedInUser = await loginUser(req.body);
             return res.status(200).send(loggedInUser)
         } catch (e) {
-            return res.status(400).send({message: e.message})
+            return res.status(400).send({ message: e.message })
         }
     } catch (e) {
         return res.status(500).send({ error: e })

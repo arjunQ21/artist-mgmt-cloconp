@@ -7,7 +7,7 @@ create table user(
     first_name varchar(255) not null,
     last_name varchar(255) not null,
     role enum("super_admin", 'artist_manager', 'artist'),
-    email varchar(255) not null,
+    email varchar(255) not null UNIQUE,
     password varchar(500) not null,
     phone varchar(20) not null,
     dob datetime,

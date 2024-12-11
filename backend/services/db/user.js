@@ -1,4 +1,5 @@
 import connection from "./connection.js";
+import bcrypt from 'bcrypt'
 
 async function getUser (id) {
     try {
@@ -29,6 +30,7 @@ async function insertUser (user) {
     const {
         first_name,
         last_name,
+        role,
         email,
         password,
         phone,
@@ -40,9 +42,9 @@ async function insertUser (user) {
     try {
         const [result] = await connection.query(
             `INSERT INTO user 
-        (first_name, last_name, email, password, phone, dob, gender, address) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-            [first_name, last_name, email, password, phone, dob, gender, address]
+        (first_name, last_name, role,  email, password, phone, dob, gender, address) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [first_name, last_name, role, email, password, phone, dob, gender, address]
         );
         const insertedId = result.insertId;
         if (!insertedId) {
@@ -74,5 +76,15 @@ async function updateUser (id, updatedFields) {
 }
 
 
+async function loginUser ({ email, password }) {
+    const [results] = await connection.query("SELECT id, password FROM user WHERE email = ?", [email]);
+    if (results[0]) {
+        if (!await bcrypt.compare(password, results[0].password)) {
+            throw new Error("Incorrect Password.");
+        } else return await getUser(results[0].id);
 
-export { readUsers, insertUser, updateUser, getUser }
+    } else throw new Error("User not found by email: " + email);
+}
+
+
+export { readUsers, insertUser, updateUser, getUser, loginUser }

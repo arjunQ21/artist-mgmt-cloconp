@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "artist-mgmt-api",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

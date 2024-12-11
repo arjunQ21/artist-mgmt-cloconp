@@ -1,24 +1,33 @@
-import { config } from "dotenv";
-config()
+import "dotenv/config"
 import { createPool } from "mysql2";
-console.log(process.env)
 
-const pool = createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0,
-  });
-  
-  // Example query
-  pool.query('SELECT * FROM user', (err, results) => {
-    if (err) {
-        console.error('Error executing query:', err.message);
-        console.log(err)
-      return;
+
+const connection = createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+})
+
+// Testing connection
+connection.getConnection((err, connection) => {
+  if (err) {
+    if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+      console.error('Database connection was closed.');
+    } else if (err.code === 'ER_CON_COUNT_ERROR') {
+      console.error('Database has too many connections.');
+    } else if (err.code === 'ECONNREFUSED') {
+      console.error('Database connection was refused.');
+    } else {
+      console.error('Unknown database error:', err.message);
     }
-    console.log('Query Results:', results);
-  });
+  }
+
+  if (connection) connection.release(); 
+  console.log('Connected to the MySQL database');
+});
+
+export default connection.promise();

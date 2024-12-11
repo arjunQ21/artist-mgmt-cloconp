@@ -1,8 +1,6 @@
-import Joi from "joi";
-
 const validate = (requestPartsWithValidationSchema) => {
 
-    const validRequestParts = ['body', 'params', 'query', 'files']
+    const validRequestParts = ['body', 'params', 'query', 'files', 'headers']
 
     const invalidParts = Object.keys(requestPartsWithValidationSchema).filter((e) => !validRequestParts.includes(e));
 

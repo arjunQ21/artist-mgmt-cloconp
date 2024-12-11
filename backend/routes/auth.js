@@ -4,7 +4,7 @@ import Joi from "joi";
 import { genders, roles } from "../helpers/constants.js"
 import { insertUser, loginUser } from "../services/db/user.js"
 import moment from "moment";
-import { hashPassword } from "../helpers/functions.js";
+import { createAuthTokenFor, hashPassword } from "../helpers/functions.js";
 
 
 const authRouter = Router();
@@ -42,7 +42,7 @@ authRouter.post("/login", validate({
     try {
         try {
             const loggedInUser = await loginUser(req.body);
-            return res.status(200).send(loggedInUser)
+            return res.status(200).send({ ...loggedInUser, token: createAuthTokenFor(loggedInUser.id) })
         } catch (e) {
             return res.status(400).send({ message: e.message })
         }

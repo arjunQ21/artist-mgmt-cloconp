@@ -12,22 +12,4 @@ const connection = createPool({
   queueLimit: 0,
 })
 
-// Testing connection
-connection.getConnection((err, connection) => {
-  if (err) {
-    if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-      console.error('Database connection was closed.');
-    } else if (err.code === 'ER_CON_COUNT_ERROR') {
-      console.error('Database has too many connections.');
-    } else if (err.code === 'ECONNREFUSED') {
-      console.error('Database connection was refused.');
-    } else {
-      console.error('Unknown database error:', err.message);
-    }
-  }
-
-  if (connection) connection.release(); 
-  console.log('Connected to the MySQL database');
-});
-
 export default connection.promise();

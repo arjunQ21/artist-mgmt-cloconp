@@ -1,10 +1,13 @@
-import { Button, HStack, Input, Text, VStack } from '@chakra-ui/react';
-import React, { useState } from 'react'
+import {  HStack, Input, Text, VStack } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { Button } from 'src/components/ui/button';
 import { Field } from 'src/components/ui/field';
 import { Radio, RadioGroup } from "src/components/ui/radio";
+import { toaster } from 'src/components/ui/toaster';
 import useAPIFetch from 'src/hooks/useAPIFetch';
 
-const unInputtedValue = "-";
+const unInputtedValue = "";
 
 const roles = ['super_admin', 'artist', 'artist manager']
 const genders = ['male', 'female', 'others'];
@@ -24,6 +27,7 @@ const initialFormData = {
 
 function Register () {
 
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState(initialFormData)
 
@@ -31,15 +35,30 @@ function Register () {
 
   function handleSubmit (event) {
     event.preventDefault();
-    console.log("Submitting: ", formData);
+    // console.log("Submitting: ", formData);
+    const toSend = { ...formData }
+    delete toSend.confirm_pw
     fetchAPI({
       uri: "/auth/register", options: {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(toSend)
       },
     },)
   }
+
+  useEffect(() => {
+    if ( response && response.status === 201) {
+      
+      toaster.create({
+        title: "User Registered",
+        type: "success",
+        duration: 4000
+      })
+      navigate("/login")
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [response])
 
   function handleChange (event) {
     setFormData((oldFD) => {
@@ -123,8 +142,13 @@ function Register () {
         </Field>
 
         <Field>
-          <Button loading={ loading.toString() } disabled={ !goodToSubmit } onClick={ () => handleSubmit() }>Register</Button>
+          <HStack>
+            <Button loadingText="Registering..." loading={ loading } disabled={ !goodToSubmit } onClick={ (e) => handleSubmit(e) }>Register</Button>
+          </HStack>
         </Field>
+
+
+
       </form>
     </VStack>
   )

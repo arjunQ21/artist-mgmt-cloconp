@@ -16,13 +16,20 @@ export const fetchFromApi = async (uri, options = {}) => {
             if (response.status >= 400 && response.status < 500) {
                 toaster.create({
                     title: "Warning",
-                    description: "Check your inputs and retry",
+                    description: data.message?? "Check your inputs and retry",
                     type: "warning",
+                    duration: 3000
+                });
+            }else if (response.status >= 500 && response.status < 600) {
+                toaster.create({
+                    title: "Error",
+                    description: data.message ? data.message : "Error with API Call",
+                    type: "error",
                     duration: 3000
                 });
             }
         } 
-        return data;
+        return {parsed: data, response};
     } catch (error) {
         console.error("Fetch error:", error.message);
         toaster.create({

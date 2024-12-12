@@ -5,6 +5,8 @@
     position: sticky;
     top: 0px;
     width: 100%;
+    background-color: #eee;
+    z-index: 1;
 }
 
 * {

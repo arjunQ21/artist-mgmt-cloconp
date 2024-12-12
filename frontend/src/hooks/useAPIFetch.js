@@ -1,10 +1,11 @@
 const { useState, useEffect } = require("react");
 const { fetchFromApi } = require("src/helpers/functions");
 
+
 const useAPIFetch = () => {
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState(null);
-    const [requestData, setRequestData] = useState({uri: null, options: {}})
+    const [requestData, setRequestData] = useState({ uri: null, options: {} })
 
     function apiErrorInField (fieldName) {
         if (!response) return {}
@@ -21,11 +22,16 @@ const useAPIFetch = () => {
         if (!requestData.uri) return;
         setLoading(true)
         fetchFromApi(requestData.uri, requestData.options)
-            .then(resp => { setResponse(resp); setLoading(false); })
-            .catch(e => { setResponse(null); setLoading(false); })
+            .then(resp => {
+                setResponse(resp); setLoading(false);
+
+            })
+            .catch(e => {
+                setResponse(null); setLoading(false); 
+            })
     }, [requestData])
 
-    return {loading, response, fetchAPI: setRequestData, apiErrorInField }
+    return { loading, response, fetchAPI: setRequestData, apiErrorInField }
 
 }
 

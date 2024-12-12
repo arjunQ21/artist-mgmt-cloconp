@@ -31,7 +31,7 @@ function Register () {
 
   function handleSubmit (event) {
     event.preventDefault();
-    console.log("Submitted: ", formData);
+    console.log("Submitting: ", formData);
     fetchAPI({
       uri: "/auth/register", options: {
         method: "POST",
@@ -123,11 +123,8 @@ function Register () {
         </Field>
 
         <Field>
-          <Button loading={ loading.toString() } disabled={ !goodToSubmit } onClick={ handleSubmit }>Register</Button>
+          <Button loading={ loading.toString() } disabled={ !goodToSubmit } onClick={ () => handleSubmit() }>Register</Button>
         </Field>
-
-
-
       </form>
     </VStack>
   )

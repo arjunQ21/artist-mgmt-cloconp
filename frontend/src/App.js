@@ -5,6 +5,7 @@ import './App.css'
 import { Provider } from "./components/ui/provider"
 import { Center, VStack } from '@chakra-ui/react';
 import Register from './pages/Register';
+import { Toaster } from './components/ui/toaster';
 
 function App () {
   return (
@@ -14,15 +15,17 @@ function App () {
           <div className='header'>
             <span>Artist Management System</span>
           </div>
-          <VStack width={ '100%' } flexGrow={ '1' } padding={'20px'} boxSizing={'border-box'}>
+          <VStack width={ '100%' } flexGrow={ '1' } padding={ '20px' } pb={'100px'} boxSizing={ 'border-box' }>
             <Routes>
               <Route path='/' element={ <Home /> } />
               <Route path='/login' element={ <Login /> } />
               <Route path='/register' element={ <Register /> } />
               <Route path='*' element={ <Center>404 - page not found</Center> } />
-            </Routes> 
+            </Routes>
           </VStack>
         </VStack>
+        <Toaster />
+
       </Router>
     </Provider>
 

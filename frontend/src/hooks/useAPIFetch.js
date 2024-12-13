@@ -9,13 +9,15 @@ const useAPIFetch = () => {
     const [parsedResponse, setParsedResponse] = useState(null);
     function apiErrorInField (fieldName) {
         if (!parsedResponse) return {}
-        if (!parsedResponse.error) return {};
-        if (parsedResponse.error.hasOwnProperty(fieldName)) {
-            return {
-                invalid: true,
-                errorText: parsedResponse.error[fieldName]
+        if (parsedResponse.status === 'fail' && parsedResponse.data) {
+            if (parsedResponse.data.hasOwnProperty(fieldName)) {
+                return {
+                    invalid: true,
+                    errorText: parsedResponse.data[fieldName]
+                }
             }
-        }
+            
+        } else return {};
     }
     useEffect(() => {
         if (!requestData.uri) return;

@@ -45,7 +45,7 @@ function Login () {
         type: "success",
         duration: 4000
       })
-      dispatch(login(parsedResponse))
+      dispatch(login(parsedResponse.data))
       navigate("/dashboard")
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,13 +1,3 @@
-.header{
-    padding: 20px;
-    box-sizing: border-box;
-    border-bottom: 2px solid #bbb;
-    position: sticky;
-    top: 0px;
-    width: 100%;
-    background-color: #eee;
-    z-index: 1;
-}
 
 * {
     font-family: "Poppins", sans-serif;

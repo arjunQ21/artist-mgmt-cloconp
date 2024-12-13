@@ -6,6 +6,20 @@ meta {
 
 post {
   url: {{BASE_URL}}/auth/register
-  body: none
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "first_name": "Shyam",
+    "last_name":"Karki",
+    "email":"asdf@gmail.com",
+    "phone": "9877665543",
+  "dob": "2023-11-22T18:15:00.000Z",
+  "gender": "f",
+    "role": "super_admin",
+    "address": "Pokhara-Hemja",
+    "password": "dddfasdf"
+  }
 }

@@ -1,8 +1,14 @@
+import { useSelector } from "react-redux";
+
 const { useState, useEffect } = require("react");
 const { fetchFromApi } = require("src/helpers/functions");
 
 
 const useAPIFetch = () => {
+    const [defaultHeaders, setDefaultHeaders] = useState({
+        'Content-Type': "application/json"
+    });
+    const authUser = useSelector(store => store.auth)
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState(null);
     const [requestData, setRequestData] = useState({ uri: null, options: {} })
@@ -16,13 +22,23 @@ const useAPIFetch = () => {
                     errorText: parsedResponse.data[fieldName]
                 }
             }
-            
+
         } else return {};
     }
+
+    useEffect(() => {
+
+        setDefaultHeaders((df) => ({ ...df, ...{ 'Authorization': "Bearer " + authUser?.token } }));
+
+    }, [authUser])
+
     useEffect(() => {
         if (!requestData.uri) return;
         setLoading(true)
-        fetchFromApi(requestData.uri, requestData.options)
+        let updatedOptions = requestData.options ?? {};
+        updatedOptions['headers'] = { ...defaultHeaders, ...updatedOptions['headers'] }
+        // console.log({updatedOptions})
+        fetchFromApi(requestData.uri, updatedOptions)
             .then(resp => {
                 setResponse(resp.response); setLoading(false);
                 setParsedResponse(resp.parsed);
@@ -30,6 +46,7 @@ const useAPIFetch = () => {
             .catch(e => {
                 setResponse(null); setLoading(false);
             })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [requestData])
 
     return { loading, response, parsedResponse, fetchAPI: setRequestData, apiErrorInField }

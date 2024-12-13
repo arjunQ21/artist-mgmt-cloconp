@@ -40,7 +40,6 @@ function Register ({usedFromDashboard = false}) {
     fetchAPI({
       uri: "/auth/register", options: {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(toSend)
       },
     },)

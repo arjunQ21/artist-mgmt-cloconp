@@ -1,3 +1,5 @@
+import Jsend from "../helpers/jsend.js";
+
 const validate = (requestPartsWithValidationSchema) => {
 
     const validRequestParts = ['body', 'params', 'query', 'files', 'headers']
@@ -28,7 +30,7 @@ const validate = (requestPartsWithValidationSchema) => {
                     allErrors[errorDetail['context']['label']] = errorDetail['message']
                 })
             })
-            res.status(422).json({ error: allErrors })
+            res.status(422).send(Jsend.fail(allErrors))
         }
     }
 }

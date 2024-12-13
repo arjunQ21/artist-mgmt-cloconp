@@ -20,6 +20,7 @@ function createAuthTokenFor (userId) {
 
 async function getUserFromJWT (token) {
   try {
+    // console.log("JWT: ", token)
     var decoded = jwt.verify(token, process.env.JWT_SECRET);
     // console.log(decoded)
     const { id } = decoded.data;

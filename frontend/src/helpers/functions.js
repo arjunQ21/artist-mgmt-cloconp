@@ -1,7 +1,9 @@
+import { useSelector } from "react-redux";
 import { toaster } from "src/components/ui/toaster";
 
 export const fetchFromApi = async (uri, options = {}) => {
-    console.log({uri, options})
+    // console.log({uri, options})
+
     try {
         const response = await fetch(process.env.REACT_APP_API_URL + uri, options);
         let data;

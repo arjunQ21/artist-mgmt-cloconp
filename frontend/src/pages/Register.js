@@ -7,25 +7,24 @@ import { Radio, RadioGroup } from "src/components/ui/radio";
 import { toaster } from 'src/components/ui/toaster';
 import useAPIFetch from 'src/hooks/useAPIFetch';
 
-const unInputtedValue = "";
 
-const roles = ['super_admin', 'artist', 'artist manager']
+const roles = ['super_admin', 'artist', 'artist_manager']
 const genders = ['male', 'female', 'others'];
 const initialFormData = {
-  "first_name": unInputtedValue,
-  "last_name": unInputtedValue,
-  "email": unInputtedValue,
-  "phone": unInputtedValue,
-  "dob": unInputtedValue,
-  "gender": unInputtedValue,
-  "address": unInputtedValue,
-  "password": unInputtedValue,
+  "first_name": "",
+  "last_name": "",
+  "email": "",
+  "phone": "",
+  "dob": "",
+  "gender": "",
+  "address": "",
+  "password": "",
   "role": roles[1],
-  "confirm_pw": unInputtedValue,
+  "confirm_pw": "",
 }
 
 
-function Register () {
+function Register ({usedFromDashboard = false}) {
 
   const navigate = useNavigate();
 
@@ -55,7 +54,11 @@ function Register () {
         type: "success",
         duration: 4000
       })
-      navigate("/login")
+      if (usedFromDashboard) {
+        navigate("/dashboard/users")  
+      } else {
+        navigate("/login")
+      }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response])
@@ -69,12 +72,12 @@ function Register () {
   }
 
   function isNotEmpty (fieldName) {
-    if (formData[fieldName] === unInputtedValue) return true;
+    if (formData[fieldName] === "") return true;
     else return formData[fieldName].trim().length > 0;
   }
 
   function valueOf (fieldName) {
-    if (formData[fieldName] === unInputtedValue) return "";
+    if (formData[fieldName] === "") return "";
     else return formData[fieldName];
   }
 
@@ -97,7 +100,7 @@ function Register () {
   return (
     <VStack width={ '100%' } alignItems={ 'flex-start' }>
 
-      <h2> Register a new Account </h2>
+      <h2> { usedFromDashboard ? 'Add a new user' : 'Register a new Account' } </h2>
       <form>
         <Field required label="First Name" { ...apiErrorInField('first_name') }>
           <Input type='text' required name='first_name' value={ valueOf('first_name') } onChange={ handleChange } ></Input>
@@ -129,13 +132,13 @@ function Register () {
           <Input type='text' required name='address' value={ valueOf('address') } onChange={ handleChange } ></Input>
         </Field>
         <Field required label="Set a Password" { ...apiErrorInField('password') }>
-          <Input type='password' required name='password' value={ valueOf('password') } onChange={ handleChange } ></Input>
+          <Input type={usedFromDashboard ? "text" : "password"} required name='password' value={ valueOf('password') } onChange={ handleChange } ></Input>
         </Field>
         <Field required label="Confirm Password" invalid={ formData['password'] !== formData['confirm_pw'] } errorText="Passwords dont match">
-          <Input type='password' required name='confirm_pw' value={ valueOf('confirm_pw') } onChange={ handleChange } ></Input>
+          <Input type={usedFromDashboard ? "text" : "password"} required name='confirm_pw' value={ valueOf('confirm_pw') } onChange={ handleChange } ></Input>
         </Field>
 
-        <Field label="Register As:" { ...apiErrorInField('role') }>
+        <Field label={usedFromDashboard ? "Role" : "Register As"} { ...apiErrorInField('role') }>
           <select value={ formData.role } onChange={ handleChange } name='role' style={ { border: "1px solid #999", 'padding': "0.5em", borderRadius: "5px" } }>
             { roles.map(role => (<option key={ role } value={ role } style={ { textTransform: "capitalize" } }>{ role.split("_").join(" ") }</option>)) }
           </select>

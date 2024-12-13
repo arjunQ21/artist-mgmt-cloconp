@@ -10,6 +10,10 @@ import Dashboard from './pages/dashboard';
 import { Provider as ReduxProvider } from 'react-redux'
 import store from './state/store';
 import Header from './components/custom/header';
+import UsersIndex from './pages/dashboard/users';
+import ArtistsIndex from './pages/dashboard/artists';
+import UserAdd from './pages/dashboard/users/add';
+import AllUsers from './pages/dashboard/users/all';
 
 function App () {
   return (
@@ -24,7 +28,11 @@ function App () {
                 <Route path='/login' element={ <Login /> } />
                 <Route path='/register' element={ <Register /> } />
                 <Route path="/dashboard" element={ <Dashboard /> }>
-
+                  <Route path="users" element={ <UsersIndex /> }>
+                    <Route path="add" element={ <UserAdd /> } />
+                    <Route index element={ <AllUsers /> } />
+                  </Route>
+                  <Route path="artists" element= {<ArtistsIndex />} />
                 </Route>
                 <Route path='*' element={ <Center>404 - page not found</Center> } />
               </Routes>

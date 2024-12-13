@@ -2,9 +2,9 @@ import React from 'react'
 import "./header.css"
 import { useSelector } from 'react-redux'
 import { Button } from '../ui/button'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { MenuContent, MenuItem, MenuRoot, MenuTrigger } from '../ui/menu'
-import { HStack, Icon } from '@chakra-ui/react'
+import { HStack} from '@chakra-ui/react'
 import { RiArrowDropDownFill } from "react-icons/ri";
 
 function Header () {

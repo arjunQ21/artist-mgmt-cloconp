@@ -7,6 +7,7 @@ import {
     PaginationPrevTrigger,
     PaginationRoot,
 } from "src/components/ui/pagination"
+import Loading from 'src/components/custom/loading';
 
 function AllUsers () {
 
@@ -27,7 +28,8 @@ function AllUsers () {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page])
 
-    return (
+    return loading ? <Loading /> : (
+        
         <>
             <Table.ScrollArea borderWidth="1px">
                 <Table.Root size="sm" variant="outline">

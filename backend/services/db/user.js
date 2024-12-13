@@ -16,7 +16,7 @@ async function readUsers (page = 1, limit = 10) {
 
     try {
         const [rows] = await connection.query(
-            'SELECT * FROM user ORDER BY id LIMIT ? OFFSET ?',
+            'SELECT * FROM user ORDER BY id DESC LIMIT ? OFFSET ?',
             [limit, offset]
         );
         return rows.map(r => ({...r, password: undefined}));

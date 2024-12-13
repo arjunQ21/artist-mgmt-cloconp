@@ -1,5 +1,7 @@
 import { Router } from "express";
 import authRouter from "./auth.js";
+import userRouter from "./user.js";
+
 
 
 const indexRouter = Router();
@@ -9,5 +11,6 @@ indexRouter.get('/', (req, res) => {
 })
 
 indexRouter.use("/auth", authRouter)
+indexRouter.use("/users", userRouter)
 
 export { indexRouter }

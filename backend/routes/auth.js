@@ -5,7 +5,7 @@ import { genders, roles } from "../helpers/constants.js"
 import { insertUser, loginUser } from "../services/db/user.js"
 import moment from "moment";
 import { createAuthTokenFor, hashPassword } from "../helpers/functions.js";
-
+import Jsend from "../helpers/jsend.js"
 
 const authRouter = Router();
 
@@ -27,9 +27,9 @@ authRouter.post("/register", validate({
         rawUser['dob'] = moment(rawUser['dob']).toDate()
         rawUser['password'] = await hashPassword(rawUser['password'])
         const user = await insertUser(rawUser);
-        return res.status(201).send(user)
+        return res.status(201).send(Jsend.success(user))
     } catch (e) {
-        return res.status(500).send({ error: e })
+        return res.status(500).send(Jsend.error(e))
     }
 })
 
@@ -42,12 +42,12 @@ authRouter.post("/login", validate({
     try {
         try {
             const loggedInUser = await loginUser(req.body);
-            return res.status(200).send({ ...loggedInUser, token: createAuthTokenFor(loggedInUser.id) })
+            return res.status(200).send(Jsend.success({ ...loggedInUser, token: createAuthTokenFor(loggedInUser.id) }))
         } catch (e) {
-            return res.status(400).send({ message: e.message })
+            return res.status(400).send(Jsend.fail({}, "Could not login."))
         }
     } catch (e) {
-        return res.status(500).send({ error: e })
+        return res.status(500).send(Jsend.error(e))
     }
 })
 

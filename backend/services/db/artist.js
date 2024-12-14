@@ -39,8 +39,7 @@ async function insertArtist (artist) {
 
     try {
         const [result] = await connection.query(
-            `INSERT INTO artist 
-        (name,dob,gender,address,first_release_year,no_of_albums_released) 
+            `INSERT INTO artist (name ,dob ,gender ,address ,first_release_year ,no_of_albums_released) 
         VALUES (?, ?, ?, ?, ?, ?)`,
             [name, dob, gender, address, first_release_year, no_of_albums_released,]
         );

@@ -19,6 +19,7 @@ create table user(
 
 create table artist(
     id int auto_increment primary key,
+    name varchar(255) not null,
     dob datetime,
     gender enum('m', 'f', 'o') DEFAULT 'o',
     address varchar(255),

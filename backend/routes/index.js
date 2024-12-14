@@ -1,6 +1,7 @@
 import { Router } from "express";
 import authRouter from "./auth.js";
 import userRouter from "./user.js";
+import artistRouter from "./artists.js";
 
 
 
@@ -12,5 +13,6 @@ indexRouter.get('/', (req, res) => {
 
 indexRouter.use("/auth", authRouter)
 indexRouter.use("/users", userRouter)
+indexRouter.use("/artists", artistRouter)
 
 export { indexRouter }

@@ -88,5 +88,17 @@ async function loginUser ({ email, password }) {
     } else throw new Error("User not found by email: " + email);
 }
 
+async function deleteUser (id) {
+    try {
+        const [userData] = await connection.query("DELETE from user WHERE id = ?", [id])
+        // console.log({ userData })
+        if (  userData.affectedRows) {
+            return true;
+        } else throw new Error("User not found by id: "+ id)
+    } catch (err) {
+        console.log("Error deleting user: ", err);
+        throw err;
+    }
+}
 
-export { readUsers, insertUser, updateUser, getUser, loginUser }
+export { readUsers, insertUser, updateUser, getUser, loginUser, deleteUser }

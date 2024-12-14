@@ -1,7 +1,7 @@
 import { Router } from "express";
 import validate from "../middlewares/validate.js";
 import Joi from "joi";
-import { getUser, readUsers, updateUser } from "../services/db/user.js";
+import { deleteUser, getUser, readUsers, updateUser } from "../services/db/user.js";
 import needLogin from "../middlewares/needLogin.js"
 import Jsend from "../helpers/jsend.js";
 import { createAuthTokenFor } from "../helpers/functions.js"
@@ -59,6 +59,16 @@ singleUserRouter.put("/", validate({
     try {
         req.currentUser = await updateUser(req.currentUser.id, { ...req.body, ...{dob: moment(req.body.dob).toDate()} })
         return res.status(200).send(Jsend.success(req.currentUser))
+    } catch (e) {
+        return res.status(500).send(Jsend.error(e))
+    }
+})
+
+// delete single user
+singleUserRouter.delete("/", async function (req, res) {
+    try {
+        await deleteUser(req.currentUser.id);
+        return res.status(200).send(Jsend.success({}, "User with id '"+req.currentUser.id+"' Deleted."))
     } catch (e) {
         return res.status(500).send(Jsend.error(e))
     }

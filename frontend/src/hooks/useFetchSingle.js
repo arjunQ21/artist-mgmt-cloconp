@@ -6,10 +6,14 @@ const useFetchSingle = (resourceURI = null) => {
 
     const [singleResource, setSingleResource] = useState(null);
 
-    fetchAPI({ uri: resourceURI });
+    
+    useEffect(function () {
+        fetchAPI({ uri: resourceURI });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [resourceURI])
 
     useEffect(function () {
-        if (parsedResponse.status === 'success') {
+        if ( parsedResponse && parsedResponse.status === 'success') {
             setSingleResource(parsedResponse.data);
         } else {
             setSingleResource(null);

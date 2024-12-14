@@ -1,19 +1,13 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Login from './pages/Login'
-import './App.css'
-import { Provider } from "./components/ui/provider"
-import { Center, VStack } from '@chakra-ui/react';
-import Register from './pages/Register';
-import { Toaster } from './components/ui/toaster';
-import Dashboard from './pages/dashboard';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider as ReduxProvider } from 'react-redux'
 import store from './state/store';
 import Header from './components/custom/header';
-import UsersIndex from './pages/dashboard/users';
-import ArtistsIndex from './pages/dashboard/artists';
-import UserAdd from './pages/dashboard/users/add';
-import AllUsers from './pages/dashboard/users/all';
+import './App.css'
+import { Provider } from "./components/ui/provider"
+import { Toaster } from './components/ui/toaster';
+import {  VStack } from '@chakra-ui/react';
+import AppRoutes from './AppRoutes';
+
 
 function App () {
   return (
@@ -23,19 +17,7 @@ function App () {
           <VStack width={ '100%' } height={ '100vh' } gap={ '0px' }>
            <Header />
             <VStack width={ '100%' } flexGrow={ '1' } padding={ '20px' } pb={ '100px' } boxSizing={ 'border-box' }>
-              <Routes>
-                <Route path='/' element={ <Home /> } />
-                <Route path='/login' element={ <Login /> } />
-                <Route path='/register' element={ <Register /> } />
-                <Route path="/dashboard" element={ <Dashboard /> }>
-                  <Route path="users" element={ <UsersIndex /> }>
-                    <Route path="add" element={ <UserAdd /> } />
-                    <Route index element={ <AllUsers /> } />
-                  </Route>
-                  <Route path="artists" element= {<ArtistsIndex />} />
-                </Route>
-                <Route path='*' element={ <Center>404 - page not found</Center> } />
-              </Routes>
+              <AppRoutes />
             </VStack>
           </VStack>
           <Toaster />

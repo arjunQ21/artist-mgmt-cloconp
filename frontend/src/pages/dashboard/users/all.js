@@ -1,4 +1,4 @@
-import { Table, HStack, Group } from '@chakra-ui/react'
+import { Table, Group } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import useAPIFetch from 'src/hooks/useAPIFetch'
 import {
@@ -8,8 +8,12 @@ import {
     PaginationRoot,
 } from "src/components/ui/pagination"
 import Loading from 'src/components/custom/loading';
+import { useNavigate } from 'react-router-dom';
+
 
 function AllUsers () {
+
+    const navigate = useNavigate();
 
     const [page, setPage] = useState(1);
 
@@ -31,7 +35,7 @@ function AllUsers () {
     return loading ? <Loading /> : (
         
         <>
-            <Table.ScrollArea borderWidth="1px">
+            <Table.ScrollArea borderWidth="1px" interactive>
                 <Table.Root size="sm" variant="outline">
                     <Table.Header>
                         <Table.Row>
@@ -50,7 +54,7 @@ function AllUsers () {
                     </Table.Header>
                     <Table.Body>
                         { parsedResponse && parsedResponse.status === 'success' && parsedResponse.data.map((item) => (
-                            <Table.Row key={ item.id }>
+                            <Table.Row key={ item.id } onClick={() => navigate("/dashboard/users/"+item.id)} cursor={'pointer'} >
                                 <Table.Cell>{ item.id }</Table.Cell>
                                 <Table.Cell>{ item.first_name }</Table.Cell>
                                 <Table.Cell>{ item.last_name }</Table.Cell>

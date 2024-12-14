@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { toaster } from "src/components/ui/toaster";
 
 export const fetchFromApi = async (uri, options = {}) => {

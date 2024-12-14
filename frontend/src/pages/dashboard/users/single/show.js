@@ -16,7 +16,7 @@ function SingleUserShow () {
                     <li><span><b>Phone: </b> { singleResource.phone } { singleResource.last_name } </span></li>
                     <li><span><b>Address: </b> { singleResource.address } { singleResource.last_name } </span></li>
                     <li><span><b>Gender: </b> { singleResource.gender === 'm' ? "Male" : singleResource.gender === 'f' ? "Female" : "Others" } </span></li>
-                    <li><span><b>DOB: </b> { singleResource.dob } </span></li>
+                    <li><span><b>DOB: </b> {  moment(singleResource.dob).format("DD MMM, YYYY") } </span></li>
                     <li><span><b>Created  </b>At: { moment(singleResource.created_at).format("DD MMM, YYYY") } </span></li>
                     <li><span><b>Updated  </b>At: { moment(singleResource.updated_at).format("DD MMM, YYYY") } </span></li>
                 </ul>

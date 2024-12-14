@@ -12,7 +12,7 @@ create table user(
     phone varchar(20) not null,
     dob datetime,
     gender enum('m', 'f', 'o') not null,
-    Address varchar(255),
+    address varchar(255),
     created_at datetime DEFAULT CURRENT_TIMESTAMP,
     updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ;

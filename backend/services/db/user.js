@@ -4,7 +4,9 @@ import bcrypt from 'bcrypt'
 async function getUser (id) {
     try {
         const [userData] = await connection.query("SELECT * from user WHERE id = ?", [id])
-        return { ...userData[0] , password: undefined};
+        if (  userData[0]) {
+            return { ...userData[0], password: undefined };
+        } else throw new Error("User not found by id: "+ id)
     } catch (err) {
         console.log("Error getting user: ", err);
         throw err;

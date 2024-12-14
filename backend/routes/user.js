@@ -1,11 +1,13 @@
 import { Router } from "express";
 import validate from "../middlewares/validate.js";
 import Joi from "joi";
-import { getUser, readUsers } from "../services/db/user.js";
+import { getUser, readUsers, updateUser } from "../services/db/user.js";
 import needLogin from "../middlewares/needLogin.js"
 import Jsend from "../helpers/jsend.js";
+import { createAuthTokenFor } from "../helpers/functions.js"
+import { roles, genders } from "../helpers/constants.js"
+import moment from "moment";
 const userRouter = Router();
-import {createAuthTokenFor} from "../helpers/functions.js"
 
 // Get all users
 userRouter.get("/", needLogin("super_admin"), validate({
@@ -19,21 +21,50 @@ userRouter.get("/", needLogin("super_admin"), validate({
     return res.status(200).send(Jsend.success(users))
 })
 
-// Get user by id
-userRouter.get("/:userId", needLogin("super_admin"), validate({
+const singleUserRouter = Router();
+// Router for single user by id
+userRouter.use("/:userId", needLogin("super_admin"), validate({
     params: Joi.object().keys({
         userId: Joi.number().required()
     })
-}), async function (req, res) {
+}), async function (req, res, next) {
     try {
-        const user = await getUser(parseInt(req.params.userId));
-        if (!user) throw new Error("User not found.");
-        return res.status(200).send(Jsend.success(user));
+        req.currentUser = await getUser(parseInt(req.params.userId));
+        if (!req.currentUser) throw new Error("User not found.");
+        return next();
     } catch (e) {
         console.log(e);
         return res.send(Jsend.fail({}, e.message))
     }
-}  )
+}  , singleUserRouter)
+
+// get single user
+singleUserRouter.get("/", function (req, res) {
+    return res.status(200).send(Jsend.success(req.currentUser))
+})
+
+// edit single user
+singleUserRouter.put("/", validate({
+    body: Joi.object().keys({
+        first_name: Joi.string().required(),
+        last_name: Joi.string().required(),
+        email: Joi.string().email().required(),
+        role: Joi.string().valid(...roles).required(),
+        phone: Joi.string().regex(/^[0-9]{10}$/).messages({ 'string.pattern.base': `Phone number must have 10 digits.` }).required(),
+        dob: Joi.date().required(),
+        gender: Joi.string().valid(...genders).required(),
+        address: Joi.string().required(),
+    }),
+}), async function (req, res) {
+    try {
+        req.currentUser = await updateUser(req.currentUser.id, { ...req.body, ...{dob: moment(req.body.dob).toDate()} })
+        return res.status(200).send(Jsend.success(req.currentUser))
+    } catch (e) {
+        return res.status(500).send(Jsend.error(e))
+    }
+})
+
+
 
 // Check if AUTH TOKEN is valid
 userRouter.get("/me", needLogin(), function (req, res) {

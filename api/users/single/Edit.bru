@@ -1,0 +1,28 @@
+meta {
+  name: Edit
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{BASE_URL}}/users/1
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{ACCESS_TOKEN}}
+}
+
+body:json {
+  {
+      "first_name": "Hari",
+      "last_name": "Sharan",
+      "email": "first@account.com",
+      "role": "artist",
+      "phone": "8989988989",
+      "dob": "14 Nov, 1997",
+      "gender": "m",
+      "address": "Hemja"
+    }
+}

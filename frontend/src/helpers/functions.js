@@ -23,7 +23,15 @@ export const fetchFromApi = async (uri, options = {}) => {
                     type: "error",
                     duration: 3000
                 });
-            } else if (data.status !== 'success') {
+            } else if (data.status === 'success') { 
+                if (data.message) {
+                    toaster.create({
+                        description: data.message,
+                        type: "success",
+                        duration: 3000
+                    });
+                }
+            } else {
                 toaster.create({
                     title: "Server Error",
                     description: data.message ?? data.toString(),

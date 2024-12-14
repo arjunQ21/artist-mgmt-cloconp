@@ -7,7 +7,7 @@ const authSlice = createSlice({
     initialState: null,
     reducers: {
         login: (state, action) => {
-            console.log("Login Payload: ", action.payload)
+            // console.log("Login Payload: ", action.payload)
             if(!action.payload) throw new Error("Cannot Login with empty payload. ")
             state = action.payload;
             return state;

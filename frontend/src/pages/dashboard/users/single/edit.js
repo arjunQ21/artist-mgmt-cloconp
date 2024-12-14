@@ -65,7 +65,7 @@ function SingleUserEdit () {
   }
 
   useEffect(() => {
-    console.log({response})
+    // console.log({response})
     if (response && response.status === 200) {
 
       toaster.create({

@@ -1,4 +1,6 @@
 const genders = ['m', 'f', 'o']
 const roles = ['super_admin', 'artist', 'artist_manager']
- 
-export {genders, roles}
+const genre = ['rnb','country','classic','rock','jazz']
+
+
+export { genders, roles, genre }

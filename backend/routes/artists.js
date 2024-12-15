@@ -96,10 +96,6 @@ singleArtistRouter.delete("/", async function (req, res) {
 
 
 
-// Check if AUTH TOKEN is valid
-artistRouter.get("/me", needLogin(), function (req, res) {
-    return res.status(200).send(Jsend.success({ ...req.artist, token: createAuthTokenFor(req.artist.id) }))
-})
 
 
 export default artistRouter 

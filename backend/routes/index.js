@@ -2,6 +2,7 @@ import { Router } from "express";
 import authRouter from "./auth.js";
 import userRouter from "./user.js";
 import artistRouter from "./artists.js";
+import musicRouter from "./musics.js";
 
 
 
@@ -14,5 +15,6 @@ indexRouter.get('/', (req, res) => {
 indexRouter.use("/auth", authRouter)
 indexRouter.use("/users", userRouter)
 indexRouter.use("/artists", artistRouter)
+indexRouter.use("/musics", musicRouter)
 
 export { indexRouter }

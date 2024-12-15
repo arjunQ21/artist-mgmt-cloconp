@@ -31,6 +31,7 @@ create table artist(
 
 create table music(
     artist_id int not null,
+    id int auto_increment primary key,
     title varchar(255) not null,
     album_name varchar(255) not null,
     genre enum('rnb', 'country', 'classic', 'rock', 'jazz') not null,

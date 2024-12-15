@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
 
-function AllArtists () {
+function AllArtists ({onRowClicked}) {
 
     const navigate = useNavigate();
 
@@ -26,6 +26,14 @@ function AllArtists () {
 
     function handlePageChange (details) {
         setPage(details.page)
+    }
+
+    function handleRowClick(artistId){
+        if (onRowClicked) {
+            onRowClicked(artistId);
+        } else {
+            navigate("/dashboard/artists/" + artistId);
+        }
     }
 
     useEffect(() => {
@@ -51,7 +59,7 @@ function AllArtists () {
                     </Table.Header>
                     <Table.Body>
                         { parsedResponse && parsedResponse.status === 'success' && parsedResponse.data.map((item) => (
-                            <Table.Row key={ item.id } onClick={ () => navigate("/dashboard/artists/" + item.id) } cursor={ 'pointer' } >
+                            <Table.Row key={ item.id } onClick={ () => handleRowClick(item.id) } cursor={ 'pointer' } >
                                 <Table.Cell>{ item.id }</Table.Cell>
                                 <Table.Cell>{ item.name }</Table.Cell>
                                 <Table.Cell>{ moment( item.dob).format("DD MMM, YYYY") }</Table.Cell>

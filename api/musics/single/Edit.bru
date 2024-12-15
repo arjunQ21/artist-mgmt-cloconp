@@ -1,0 +1,23 @@
+meta {
+  name: Edit
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{BASE_URL}}/musics/3
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{ACCESS_TOKEN}}
+}
+
+body:json {
+  {
+    "title": "Hello here, actually",
+  "album_name":"Same old name",
+    "genre": "jazz"
+  }
+}

@@ -21,6 +21,11 @@ userRouter.get("/", needLogin("super_admin"), validate({
     return res.status(200).send(Jsend.success(users))
 })
 
+// Check if AUTH TOKEN is valid
+userRouter.get("/me", needLogin(), function (req, res) {
+    return res.status(200).send(Jsend.success({ ...req.user, token: createAuthTokenFor(req.user.id) }))
+})
+
 const singleUserRouter = Router();
 // Router for single user by id
 userRouter.use("/:userId", needLogin("super_admin"), validate({
@@ -76,10 +81,7 @@ singleUserRouter.delete("/", async function (req, res) {
 
 
 
-// Check if AUTH TOKEN is valid
-userRouter.get("/me", needLogin(), function (req, res) {
-    return res.status(200).send(Jsend.success({ ...req.user, token: createAuthTokenFor(req.user.id) }))
-})
+
 
 
 export default userRouter 

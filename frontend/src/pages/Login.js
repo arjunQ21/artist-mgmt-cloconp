@@ -1,6 +1,6 @@
 import { HStack, Input, VStack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'src/components/ui/button';
 import { Field } from 'src/components/ui/field';
@@ -17,6 +17,8 @@ const initialFormData = {
 
 
 function Login () {
+
+  const authUser = useSelector(store => store.auth)
 
   const dispatch = useDispatch();
 
@@ -37,6 +39,19 @@ function Login () {
   }
 
   useEffect(() => {
+    if (!authUser) return;
+    if (authUser.role === 'super_admin') {
+      navigate("/dashboard/users")
+    } else if (authUser.role === 'artist_manager') {
+      navigate("/dashboard/artists")
+    } else {
+      navigate("/artists-listing")
+    }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authUser])
+
+  useEffect(() => {
     if (response && response.status === 200) {
 
       toaster.create({
@@ -45,7 +60,7 @@ function Login () {
         duration: 4000
       })
       dispatch(login(parsedResponse.data))
-      navigate("/dashboard")
+  
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response])

@@ -9,6 +9,7 @@ import {
 } from "src/components/ui/pagination"
 import Loading from 'src/components/custom/loading';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 
 function AllUsers () {
@@ -60,7 +61,7 @@ function AllUsers () {
                                 <Table.Cell>{ item.last_name }</Table.Cell>
                                 <Table.Cell>{ item.email }</Table.Cell>
                                 <Table.Cell>{ item.phone }</Table.Cell>
-                                <Table.Cell>{ item.dob }</Table.Cell>
+                                <Table.Cell>{ moment( item.dob).format("DD MMM, YYYY") }</Table.Cell>
                                 <Table.Cell>{ item.gender }</Table.Cell>
                                 <Table.Cell>{ item.address }</Table.Cell>
                                 <Table.Cell>{ item.role }</Table.Cell>

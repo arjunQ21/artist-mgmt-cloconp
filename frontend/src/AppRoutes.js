@@ -17,6 +17,13 @@ import AllArtists from './pages/dashboard/artists/all';
 import SingleArtistIndex from './pages/dashboard/artists/single';
 import SingleArtistShow from './pages/dashboard/artists/single/show';
 import SingleArtistEdit from './pages/dashboard/artists/single/edit';
+import MusicsIndex from './pages/music';
+import MusicAdd from './pages/music/add';
+import AllMusics from './pages/music/all';
+import SingleMusicIndex from './pages/music/single';
+import SingleMusicShow from './pages/music/single/show';
+import SingleMusicEdit from './pages/music/single/edit';
+import ArtistListing from './pages/artistListing';
 
 
 function AppRoutes () {
@@ -43,6 +50,15 @@ function AppRoutes () {
           </Route>
         </Route>
       </Route>
+      <Route path='artists-listing' element={ <ArtistListing /> } />
+      <Route path="artists-listing/:artistListingId/music" element={ <MusicsIndex /> } >
+        <Route path="add" element={ <MusicAdd /> } />
+          <Route index element={ <AllMusics /> } />
+          <Route path=":musicId" element={ <SingleMusicIndex /> } >
+            <Route index element={ <SingleMusicShow /> } />
+            <Route path = "edit" element = {<SingleMusicEdit />} />
+          </Route>
+        </Route>
       <Route path='*' element={ <Center>404 - page not found</Center> } />
     </Routes>
   )

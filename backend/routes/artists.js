@@ -20,7 +20,7 @@ artistRouter.post("/", validate({
         first_release_year: Joi.number().required().min(1500),
         no_of_albums_released: Joi.number().required().min(0),
     }),
-}), async function (req, res) {
+}), needLogin("super_admin", 'artist_manager'), async function (req, res) {
     try {
         let rawArtist = req.body;
         rawArtist['dob'] = moment(rawArtist['dob']).toDate()
@@ -32,7 +32,7 @@ artistRouter.post("/", validate({
 })
 
 // Get all artists
-artistRouter.get("/", needLogin("super_admin", 'artist_manager'), validate({
+artistRouter.get("/", needLogin("super_admin", 'artist_manager', 'artist'), validate({
     query: Joi.object().keys({
         page: Joi.number(),
         limit: Joi.number(),
@@ -45,7 +45,7 @@ artistRouter.get("/", needLogin("super_admin", 'artist_manager'), validate({
 
 const singleArtistRouter = Router();
 // Router for single artist by id
-artistRouter.use("/:artistId", needLogin("super_admin"), validate({
+artistRouter.use("/:artistId", needLogin("super_admin", 'artist_manager'), validate({
     params: Joi.object().keys({
         artistId: Joi.number().required()
     })

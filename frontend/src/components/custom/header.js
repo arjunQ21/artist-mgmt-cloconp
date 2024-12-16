@@ -64,7 +64,7 @@ function Header () {
 
     return (
         <div className='header'>
-            <span>Artist Management System</span>
+            <Link to="/">Artist Management System</Link>
             { !authUser && (
                 <Link to="/login"> Login </Link>
             ) }

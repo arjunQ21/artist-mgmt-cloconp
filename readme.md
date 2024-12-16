@@ -12,9 +12,11 @@ The following full stack application has been developed with the following tech 
 
 ### Configuring backend
 - Make .env file from .env.example in the /backend folder. 
+- The ROUTE_DELAY environment variable can be updated to delay the API Response time by given milliseconds. This is done to simulate the real network delay in production. 
 - Setting up MYSQL Database
     - Default data are available in 'schemaAndData.sql' file. If this is imported, 3 user accounts: admin@gmail.com, manager@gmail.com and artist@gmail.com will be created with password: asdfasdf. 
     - Otherwise, clean install can be done with 'schema.sql' file, which only creates the needed tables.
+
 
 - Finally, install the npm dependencies and run the project with:
 

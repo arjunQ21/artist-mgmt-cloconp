@@ -22,7 +22,7 @@ function AllMusics () {
     const { loading, fetchAPI, parsedResponse } = useAPIFetch();
 
     function fetchNow () {
-        fetchAPI({ uri: `/musics?page=${page}&limit=10` })
+        fetchAPI({ uri: `/musics?page=${page}&limit=10&artistId=${artistListingId}` })
     }
 
     function handlePageChange (details) {

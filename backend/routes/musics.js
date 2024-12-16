@@ -30,10 +30,11 @@ musicRouter.get("/", needLogin("super_admin", 'artist_manager', 'artist'), valid
     query: Joi.object().keys({
         page: Joi.number(),
         limit: Joi.number(),
+        artistId: Joi.number().required(),
     }),
 },), async function (req, res) {
     const { page, limit } = { ...{ page: 1, limit: 10 }, ...req.query };
-    const musics = await readMusics(parseInt(page), parseInt(limit));
+    const musics = await readMusics(parseInt(page), parseInt(limit), parseInt(req.query.artistId));
     return res.status(200).send(Jsend.success(musics))
 })
 

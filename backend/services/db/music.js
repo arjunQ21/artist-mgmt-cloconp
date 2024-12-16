@@ -12,13 +12,13 @@ async function getMusic (id) {
     }
 }
 
-async function readMusics (page = 1, limit = 10) {
+async function readMusics (page = 1, limit = 10, artistId ) {
     const offset = (page - 1) * limit;
 
     try {
         const [rows] = await connection.query(
-            'SELECT * FROM music ORDER BY id DESC LIMIT ? OFFSET ?',
-            [limit, offset]
+            'SELECT * FROM music WHERE artist_id= ? ORDER BY id DESC LIMIT ? OFFSET ?',
+            [artistId, limit, offset]
         );
         return rows.map(r => ({ ...r, password: undefined }));
     } catch (err) {

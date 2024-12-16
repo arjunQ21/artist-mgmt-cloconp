@@ -51,6 +51,13 @@ function Header () {
         if (!parsedResponse) return;
         if (parsedResponse.status === 'success') {
             dispatch(login(parsedResponse.data));
+            if (parsedResponse.data.role === 'super_admin') {
+                navigate("/dashboard/users")
+              } else if (parsedResponse.data.role === 'artist_manager') {
+                navigate("/dashboard/artists")
+              } else {
+                navigate("/artists-listing")
+              }
         } else gotoLogin();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [parsedResponse])

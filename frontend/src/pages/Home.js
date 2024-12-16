@@ -1,7 +1,7 @@
 import { Center } from '@chakra-ui/react'
 import React from 'react'
 
-function Home() {
+function Home () {
   return (
     <Center>
       Welcome...

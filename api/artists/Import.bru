@@ -1,0 +1,26 @@
+meta {
+  name: Import
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{BASE_URL}}/artists
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{ACCESS_TOKEN}}
+}
+
+body:json {
+  {
+    "name": "Eminem",
+    "dob": "Dec 30, 1960",
+    "gender": "m",
+    "address": "USA",
+    "first_release_year": "2017",
+    "no_of_albums_released": 4
+  }
+}

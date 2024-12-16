@@ -1,9 +1,7 @@
 import moment from 'moment';
-import React, { useEffect } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import React from 'react'
+import { useParams } from 'react-router-dom'
 import Loading from 'src/components/custom/loading';
-import { Button } from 'src/components/ui/button';
-import useAPIFetch from 'src/hooks/useAPIFetch';
 import useFetchSingle from 'src/hooks/useFetchSingle'
 
 function SingleArtistShow () {

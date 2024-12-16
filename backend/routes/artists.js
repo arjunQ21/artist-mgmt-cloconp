@@ -4,8 +4,7 @@ import Joi from "joi";
 import { deleteArtist, getArtist, insertArtist, readArtists, updateArtist } from "../services/db/artist.js";
 import needLogin from "../middlewares/needLogin.js"
 import Jsend from "../helpers/jsend.js";
-import { createAuthTokenFor } from "../helpers/functions.js"
-import { roles, genders } from "../helpers/constants.js"
+import { genders } from "../helpers/constants.js"
 import moment from "moment";
 const artistRouter = Router();
 
@@ -26,6 +25,30 @@ artistRouter.post("/", validate({
         rawArtist['dob'] = moment(rawArtist['dob']).toDate()
         const artist = await insertArtist(rawArtist);
         return res.status(201).send(Jsend.success(artist))
+    } catch (e) {
+        return res.status(500).send(Jsend.error(e))
+    }
+})
+
+// import artists from array
+artistRouter.post("/import", validate({
+    body: Joi.object().keys({
+        rawArtists: Joi.array().required().items(Joi.object().keys({
+            name: Joi.string().required(),
+            dob: Joi.date().required(),
+            gender: Joi.string().valid(...genders).required(),
+            address: Joi.string().required(),
+            first_release_year: Joi.number().required().min(1500),
+            no_of_albums_released: Joi.number().required().min(0),
+        },),)
+    }),
+}), needLogin("super_admin", 'artist_manager'), async function (req, res) {
+    try {
+        const rawArtists = req.body.rawArtists;
+
+        const responses = await Promise.all(rawArtists.map(e => insertArtist(e).then((a) => false).catch((e) => e.message)))
+
+        return res.status(200).send(Jsend.success({}, `${responses.filter(e => !e).length} / ${responses.length} artists imported. Found Errors: [${responses.filter(e => e).join(", ")}]`))
     } catch (e) {
         return res.status(500).send(Jsend.error(e))
     }

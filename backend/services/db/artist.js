@@ -1,3 +1,4 @@
+import moment from "moment";
 import connection from "./connection.js";
 
 async function getArtist (id) {
@@ -41,7 +42,7 @@ async function insertArtist (artist) {
         const [result] = await connection.query(
             `INSERT INTO artist (name ,dob ,gender ,address ,first_release_year ,no_of_albums_released) 
         VALUES (?, ?, ?, ?, ?, ?)`,
-            [name, dob, gender, address, first_release_year, no_of_albums_released,]
+            [name, moment(dob).toDate(), gender, address, first_release_year, no_of_albums_released,]
         );
         const insertedId = result.insertId;
         if (!insertedId) {

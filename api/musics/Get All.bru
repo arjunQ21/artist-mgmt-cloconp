@@ -5,9 +5,13 @@ meta {
 }
 
 get {
-  url: {{BASE_URL}}/musics
+  url: {{BASE_URL}}/musics?artistId=4
   body: none
   auth: bearer
+}
+
+params:query {
+  artistId: 4
 }
 
 auth:bearer {
